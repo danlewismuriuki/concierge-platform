@@ -1,0 +1,13 @@
+{
+  "name": "@concierge/queue",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "bullmq": "^5.73.0",
+    "ioredis": "^5.10.1"
+  }
+}

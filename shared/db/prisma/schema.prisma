@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum JobStatus {
+  pending
+  in_progress
+  completed
+  failed
+}
+
+enum JobType {
+  ride
+  delivery
+  grocery
+}
+
+enum JobProvider {
+  uber_sim
+  doordash_sim
+}
+
+model Job {
+  id              String      @id @default(uuid())
+  idempotencyKey  String      @unique @map("idempotency_key")
+
+  type            JobType
+  status          JobStatus   @default(pending)
+  provider        JobProvider
+
+  claimedBy       String?     @map("claimed_by")
+  claimedAt       DateTime?   @map("claimed_at")
+
+  attemptsCount   Int         @default(0) @map("attempts_count")
+  maxAttempts     Int         @default(5) @map("max_attempts")
+
+  providerJobId   String?     @map("provider_job_id")
+  lastError       String?     @db.Text @map("last_error")
+
+  callerPhone     String?     @map("caller_phone")
+  callSid         String?     @map("call_sid")
+
+  requestPayload  Json        @map("request_payload")
+  responsePayload Json?       @map("response_payload")
+
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@map("jobs")
+}
+
+model WebhookEvent {
+  eventId       String    @id @map("event_id")
+  processedAt   DateTime  @default(now()) @map("processed_at")
+  provider      String
+  jobId         String?   @map("job_id")
+
+  @@map("webhook_events")
+}

@@ -1,0 +1,22 @@
+{
+  "name": "concierge-platform",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace=services/api-service",
+    "dev:worker": "npm run dev --workspace=services/worker-service",
+    "dev:webhook": "npm run dev --workspace=services/webhook-service",
+    "dev:ivr": "npm run dev --workspace=services/ivr-service",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "ts-node-dev": "^2.0.0"
+  }
+}
