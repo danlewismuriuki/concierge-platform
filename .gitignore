@@ -6,3 +6,4 @@ dist/
 coverage/
 shared/db/src/generated/
 shared/db/.env
+shared/db/.env
